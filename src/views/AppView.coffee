@@ -1,20 +1,17 @@
 class window.AppView extends Backbone.View
+
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
-    <div class="player-hand-container"></div>
-    <div class="dealer-hand-container"></div>
+    <div class="gameView"></div>
   '
 
-  events:
-    'click .hit-button': -> @model.get('playerHand').hit()
-    'click .stand-button': -> @model.get('playerHand').stand()
-
   initialize: ->
+    @gameview = new GameView(model: new Game())
     @render()
 
   render: ->
     @$el.children().detach()
     @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    # Do we need a $ to attach this to the DOM?
+    #@$('.gameview') wasn't working.  In other classes, the class here was part of a template.  We could create a template here...
+    @$('.gameview').html @gameview.$el
 
